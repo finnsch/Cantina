@@ -11,7 +11,7 @@ public enum Tab: Hashable {
 
 @Observable
 @MainActor
-public class AppViewModel: ObservableObject {
+public class AppViewModel {
     @ObservationIgnored
     @Dependency(\.musicPlayer) var musicPlayer
 
