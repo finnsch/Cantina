@@ -1,23 +1,27 @@
 import SwiftUI
 
 public struct AppColor {
+    // swiftformat:disable numberFormatting
+
     // MARK: - Brand Colors
 
-    public let brand = Color(hex: 0xFFE3_00FF)
-    public let accent = Color(hex: 0xC41E_3AFF)
+    public let brand = Color(hex: 0xFFE300_FF)
+    public let accent = Color(hex: 0xC41E3A_FF)
 
     // MARK: - Background Colors
 
-    public let background = Color(hex: 0x1719_1AFF)
-    public let surfaceElevated = Color(hex: 0x1E20_22FF)
-    public let cardBackground = Color(hex: 0x2527_29FF)
+    public let background = Color(hex: 0x17191A_FF)
+    public let surfaceElevated = Color(hex: 0x1E2022_FF)
+    public let cardBackground = Color(hex: 0x252729_FF)
 
     // MARK: - Text Colors
 
-    public let primaryLabel = Color(hex: 0xFFFF_FFFF)
-    public let secondaryLabel = Color(hex: 0xA8AA_ACFF)
-    public let tertiaryLabel = Color(hex: 0x6B6E_70FF)
-    public let separator = Color(hex: 0x2D30_33FF)
+    public let primaryLabel = Color(hex: 0xFFFFFF_FF)
+    public let secondaryLabel = Color(hex: 0xA8AAAC_FF)
+    public let tertiaryLabel = Color(hex: 0x6B6E70_FF)
+    public let separator = Color(hex: 0x2D3033_FF)
+
+    // swiftformat:enable numberFormatting
 }
 
 public extension Color {

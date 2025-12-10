@@ -22,7 +22,9 @@ public struct Person: Codable, Sendable, Identifiable, Equatable {
 
     public var imageUrl: URL? {
         let id = url.lastPathComponent
-        return URL(string: "https://raw.githubusercontent.com/breatheco-de/swapi-images/master/public/images/people/\(id).jpg")
+        return URL(
+            string: "https://raw.githubusercontent.com/breatheco-de/swapi-images/master/public/images/people/\(id).jpg",
+        )
     }
 
     public var formattedHeight: String {

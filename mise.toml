@@ -4,6 +4,6 @@ swiftformat = '0.58.7'
 
 [tasks.lint]
 run = '''
-swiftlint --config .swiftlint.yml
+swiftlint --config .swiftlint.yml --strict
 swiftformat --config .swiftformat --strict .
 '''
