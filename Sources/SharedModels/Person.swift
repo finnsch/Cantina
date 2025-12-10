@@ -24,6 +24,18 @@ public struct Person: Codable, Sendable, Identifiable, Equatable {
         let id = url.lastPathComponent
         return URL(string: "https://raw.githubusercontent.com/breatheco-de/swapi-images/master/public/images/people/\(id).jpg")
     }
+
+    public var formattedHeight: String {
+        guard let centimeters = Double(height) else { return height }
+
+        return Measurement(value: centimeters, unit: UnitLength.centimeters).formatted()
+    }
+
+    public var formattedMass: String {
+        guard let kilograms = Double(mass) else { return mass }
+
+        return Measurement(value: kilograms, unit: UnitMass.kilograms).formatted()
+    }
 }
 
 public struct PeopleResponse: Codable, Sendable {

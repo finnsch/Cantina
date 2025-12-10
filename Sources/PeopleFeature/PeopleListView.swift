@@ -23,6 +23,8 @@ public class PeopleListViewModel {
         }
     }
 
+    var presentedPerson: Person?
+
     private var allPeople: [Person] = []
     private var currentPage = 1
     private(set) var isPlayingMusic = false
@@ -87,6 +89,10 @@ public class PeopleListViewModel {
             }
         }
     }
+
+    func rowTapped(person: Person) {
+        presentedPerson = person
+    }
 }
 
 public struct PeopleListView: View {
@@ -99,9 +105,16 @@ public struct PeopleListView: View {
     public var body: some View {
         List {
             ForEach(viewModel.people) { person in
-                PersonRowView(person: person)
-                    .listRowBackground(Color.app.background)
-                    .listRowSeparator(.hidden)
+                Button {
+                    viewModel.rowTapped(person: person)
+                } label: {
+                    PersonRowView(person: person)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .listRowBackground(Color.app.background)
+                .listRowSeparator(.hidden)
             }
 
             if !viewModel.reachedEnd {
@@ -137,6 +150,9 @@ public struct PeopleListView: View {
             }
         }
         .navigationTitle("People")
+        .sheet(item: $viewModel.presentedPerson) { person in
+            PersonDetailView(person: person)
+        }
         .task {
             await viewModel.task()
         }
@@ -191,17 +207,19 @@ struct PersonRowView: View {
     }
 }
 
-#Preview {
-    let _ = prepareDependencies {
-        $0.apiClient = .noop
-        $0.apiClient.fetchPeople = { _ in
-            .init(results: Person.mocks)
+#if DEBUG
+    #Preview {
+        let _ = prepareDependencies {
+            $0.apiClient = .noop
+            $0.apiClient.fetchPeople = { _ in
+                .init(results: Person.mocks)
+            }
         }
-    }
 
-    WithStyling {
-        NavigationStack {
-            PeopleListView(viewModel: PeopleListViewModel())
+        WithStyling {
+            NavigationStack {
+                PeopleListView(viewModel: PeopleListViewModel())
+            }
         }
     }
-}
+#endif
