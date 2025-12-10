@@ -12,7 +12,15 @@ public class PeopleListViewModel {
 
     var isLoading = false
     var people: [Person] = []
+    var searchText = "" {
+        didSet {
+            if oldValue != searchText {
+                filterPeople()
+            }
+        }
+    }
 
+    private var allPeople: [Person] = []
     private var currentPage = 1
     private(set) var reachedEnd = false
 
@@ -29,7 +37,8 @@ public class PeopleListViewModel {
         do {
             let response = try await apiClient.fetchPeople(currentPage)
             reachedEnd = response.next == nil
-            people.append(contentsOf: response.results)
+            allPeople.append(contentsOf: response.results)
+            filterPeople()
         } catch {
             reportIssue(error, "Failed to fetch people at page \(currentPage)")
         }
@@ -39,6 +48,17 @@ public class PeopleListViewModel {
         if !isLoading {
             currentPage += 1
             await fetchPeople()
+        }
+    }
+
+    private func filterPeople() {
+        guard !searchText.isEmpty else {
+            people = allPeople
+            return
+        }
+
+        people = allPeople.filter {
+            $0.name.localizedCaseInsensitiveContains(searchText)
         }
     }
 }
@@ -70,6 +90,7 @@ public struct PeopleListView: View {
             }
         }
         .listStyle(.plain)
+        .searchable(text: $viewModel.searchText)
         .background(Color.app.background)
         .navigationTitle("People")
         .task {
