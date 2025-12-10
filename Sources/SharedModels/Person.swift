@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Person: Codable, Sendable, Identifiable {
+public struct Person: Codable, Sendable, Identifiable, Equatable {
     public var id: String {
         url.lastPathComponent
     }

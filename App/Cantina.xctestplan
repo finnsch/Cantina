@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "31025521-C659-4F3D-9A76-2B0F526002E4",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Cantina.xcodeproj",
+      "identifier" : "14CE411A16FC0A2584B457C3",
+      "name" : "Cantina"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:..",
+        "identifier" : "PeopleFeatureTests",
+        "name" : "PeopleFeatureTests"
+      }
+    }
+  ],
+  "version" : 1
+}

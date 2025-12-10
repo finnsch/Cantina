@@ -51,6 +51,12 @@ let package = Package(
                 "Styleguide",
             ],
         ),
+        .testTarget(
+            name: "PeopleFeatureTests",
+            dependencies: [
+                "PeopleFeature",
+            ],
+        ),
         .target(name: "SharedModels"),
         .target(
             name: "SharedViews",

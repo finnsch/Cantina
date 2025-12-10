@@ -17,6 +17,7 @@
 		612F4A3C2DE76BA600CA473B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7777DB208625D316A22A8BD0 /* CantinaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CantinaApp.swift; sourceTree = "<group>"; };
 		95A3CD8F442FCB256C9B324F /* Cantina.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cantina.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6E7AD5B2EE9A17500447CCB /* Cantina.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = file; path = Cantina.xctestplan; sourceTree = "<group>"; };
 		F543D4CD607C908FE174B64E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -35,6 +36,7 @@
 		83754BA292FE946CEC690812 = {
 			isa = PBXGroup;
 			children = (
+				B6E7AD5B2EE9A17500447CCB /* Cantina.xctestplan */,
 				306C578EA4DE00366F0308B9 /* cantina-ios */,
 				AA6C03232BCB8C3F0FA72B85 /* Cantina */,
 				CC9DA4679334259D22FAB322 /* Products */,
