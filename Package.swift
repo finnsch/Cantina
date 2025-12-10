@@ -8,6 +8,7 @@ let package = Package(
     products: [
         .library(name: "ApiClient", targets: ["ApiClient"]),
         .library(name: "AppFeature", targets: ["AppFeature"]),
+        .library(name: "MusicPlayerClient", targets: ["MusicPlayerClient"]),
         .library(name: "PeopleFeature", targets: ["PeopleFeature"]),
         .library(name: "SharedModels", targets: ["SharedModels"]),
         .library(name: "SharedViews", targets: ["SharedViews"]),
@@ -27,14 +28,24 @@ let package = Package(
         .target(
             name: "AppFeature",
             dependencies: [
+                "MusicPlayerClient",
                 "PeopleFeature",
                 "SharedViews",
             ],
         ),
         .target(
+            name: "MusicPlayerClient",
+            dependencies: [
+                .product(name: "Dependencies", package: "swift-dependencies"),
+                .product(name: "DependenciesMacros", package: "swift-dependencies"),
+            ],
+            resources: [.process("Resources/")],
+        ),
+        .target(
             name: "PeopleFeature",
             dependencies: [
                 "ApiClient",
+                "MusicPlayerClient",
                 "SharedModels",
                 "SharedViews",
                 "Styleguide",

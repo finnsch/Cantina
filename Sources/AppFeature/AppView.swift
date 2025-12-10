@@ -1,4 +1,6 @@
+import Dependencies
 import HomeFeature
+import MusicPlayerClient
 import Observation
 import PeopleFeature
 import SharedViews
@@ -9,11 +11,21 @@ public enum Tab: Hashable {
 }
 
 @Observable
+@MainActor
 public class AppViewModel: ObservableObject {
+    @ObservationIgnored
+    @Dependency(\.musicPlayer) var musicPlayer
+
     var selectedTab: Tab
 
     public init(selectedTab: Tab = .people) {
         self.selectedTab = selectedTab
+    }
+
+    func task() async {
+        await withErrorReporting {
+            try await musicPlayer.load()
+        }
     }
 }
 
@@ -37,6 +49,9 @@ public struct AppView: View {
             }
         }
         .tint(.app.brand)
+        .task {
+            await viewModel.task()
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 import ApiClient
 import Dependencies
+import MusicPlayerClient
 import SharedModels
 import SharedViews
 import SwiftUI
@@ -9,6 +10,8 @@ import SwiftUI
 public class PeopleListViewModel {
     @ObservationIgnored
     @Dependency(\.apiClient) private var apiClient
+    @ObservationIgnored
+    @Dependency(\.musicPlayer) var musicPlayer
 
     var isLoading = false
     var people: [Person] = []
@@ -22,7 +25,14 @@ public class PeopleListViewModel {
 
     private var allPeople: [Person] = []
     private var currentPage = 1
-    private(set) var reachedEnd = false
+    private(set) var isPlayingMusic = false
+    private(set) var reachedEnd = false {
+        didSet {
+            if reachedEnd, !isPlayingMusic {
+                playMusic()
+            }
+        }
+    }
 
     public init() {}
 
@@ -61,6 +71,22 @@ public class PeopleListViewModel {
             $0.name.localizedCaseInsensitiveContains(searchText)
         }
     }
+
+    func waveformButtonTapped() async {
+        await withErrorReporting {
+            try await musicPlayer.stop()
+            isPlayingMusic = false
+        }
+    }
+
+    private func playMusic() {
+        Task {
+            await withErrorReporting {
+                try await musicPlayer.play()
+                isPlayingMusic = true
+            }
+        }
+    }
 }
 
 public struct PeopleListView: View {
@@ -92,6 +118,24 @@ public struct PeopleListView: View {
         .listStyle(.plain)
         .searchable(text: $viewModel.searchText)
         .background(Color.app.background)
+        .toolbar {
+            ToolbarItem {
+                if viewModel.isPlayingMusic {
+                    Button {
+                        Task {
+                            await viewModel.waveformButtonTapped()
+                        }
+                    } label: {
+                        Image(systemName: "waveform")
+                            .symbolEffect(
+                                .breathe,
+                                options: .repeating,
+                                isActive: viewModel.isPlayingMusic,
+                            )
+                    }
+                }
+            }
+        }
         .navigationTitle("People")
         .task {
             await viewModel.task()
