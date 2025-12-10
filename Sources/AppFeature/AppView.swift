@@ -1,9 +1,20 @@
+import HomeFeature
 import Observation
+import PeopleFeature
+import SharedViews
 import SwiftUI
+
+public enum Tab: Hashable {
+    case people
+}
 
 @Observable
 public class AppViewModel: ObservableObject {
-    public init() {}
+    var selectedTab: Tab
+
+    public init(selectedTab: Tab = .people) {
+        self.selectedTab = selectedTab
+    }
 }
 
 public struct AppView: View {
@@ -14,10 +25,23 @@ public struct AppView: View {
     }
 
     public var body: some View {
-        EmptyView()
+        TabView(selection: $viewModel.selectedTab) {
+            Group {
+                NavigationStack {
+                    PeopleListView(viewModel: PeopleListViewModel())
+                }
+                .tabItem {
+                    Label("People", systemImage: "person.3.fill")
+                }
+                .tag(Tab.people)
+            }
+        }
+        .tint(.app.brand)
     }
 }
 
 #Preview {
-    AppView(viewModel: AppViewModel())
+    WithStyling {
+        AppView(viewModel: AppViewModel())
+    }
 }

@@ -1,11 +1,14 @@
 import AppFeature
+import SharedViews
 import SwiftUI
 
 @main
 struct CantinaApp: App {
     var body: some Scene {
         WindowGroup {
-            AppView(viewModel: AppViewModel())
+            WithStyling {
+                AppView(viewModel: AppViewModel())
+            }
         }
     }
 }
