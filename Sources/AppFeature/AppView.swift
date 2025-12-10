@@ -1,5 +1,4 @@
 import Dependencies
-import HomeFeature
 import MusicPlayerClient
 import Observation
 import PeopleFeature
