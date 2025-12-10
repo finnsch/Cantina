@@ -13,6 +13,9 @@ public class PeopleListViewModel {
     var isLoading = false
     var people: [Person] = []
 
+    private var currentPage = 1
+    private(set) var reachedEnd = false
+
     public init() {}
 
     func task() async {
@@ -24,10 +27,18 @@ public class PeopleListViewModel {
         defer { isLoading = false }
 
         do {
-            let response = try await apiClient.fetchPeople(1)
-            people = response.results
+            let response = try await apiClient.fetchPeople(currentPage)
+            reachedEnd = response.next == nil
+            people.append(contentsOf: response.results)
         } catch {
-            reportIssue(error, "Failed to fetch people")
+            reportIssue(error, "Failed to fetch people at page \(currentPage)")
+        }
+    }
+
+    func endOfListReached() async {
+        if !isLoading {
+            currentPage += 1
+            await fetchPeople()
         }
     }
 }
@@ -45,6 +56,17 @@ public struct PeopleListView: View {
                 PersonRowView(person: person)
                     .listRowBackground(Color.app.background)
                     .listRowSeparator(.hidden)
+            }
+
+            if !viewModel.reachedEnd {
+                ProgressView()
+                    .tint(.app.brand)
+                    .listRowBackground(Color.app.background)
+                    .listRowSeparator(.hidden)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .task {
+                        await viewModel.endOfListReached()
+                    }
             }
         }
         .listStyle(.plain)
